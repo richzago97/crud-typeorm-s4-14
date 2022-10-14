@@ -10,14 +10,8 @@ const userUpdateService = async (
 
   const account = users.find((user) => user.id === id);
   const data = Object.keys(dataUser);
-  if (data.includes("isAdm")) {
-    return [{ message: "Not Possible update isAdm" }, 401];
-  }
-  if (data.includes("isActive")) {
-    return [{ message: "Not Possible update isActive" }, 401];
-  }
-  if (data.includes("id")) {
-    return [{ message: "Not Possible update id" }, 401];
+  if (data.includes("isAdm") || data.includes("isActive") || data.includes("id")) {
+    return [{ message: "Not Possible update isAdm, isActive or ID" }, 401];
   }
 
   await userRepository.update(account!.id, {
