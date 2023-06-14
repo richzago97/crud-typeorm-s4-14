@@ -50,6 +50,10 @@ Para executar a aplicação, siga as etapas abaixo:
    ```
    docker-compose up --build
    ```
+ 5. Caso der erro após ter utilizado o comando acima, aperte CTRL + C, e tenta novamente com esse comando:
+  ```
+   docker-compose up
+  ```
    Observação: A porta utilizada para rodar o Docker é a 5431. Caso haja algum problema com essa porta, você pode alterá-la no arquivo `docker-compose.yml`.
 
 ### Utilizando Localhost
@@ -57,7 +61,11 @@ Para executar a aplicação, siga as etapas abaixo:
 1. Certifique-se de ter um banco de dados PostgreSQL configurado na sua máquina local.
 2. Navegue até o diretório raiz do projeto no seu terminal.
 3. Crie um arquivo `.env` no diretório raiz do projeto e configure as variáveis de ambiente com as informações corretas do seu banco de dados e a chave secreta para autenticação.
-4. Execute o seguinte comando para iniciar a aplicação em localhost:
+4. Certifique-se de estar no diretório raiz do projeto no seu terminal, Execute o seguinte comando para executar as migrations:
+   ```
+   yarn typeorm migration:run -d src/data-source.ts
+   ```
+5. Execute o seguinte comando para iniciar a aplicação em localhost:
    ```
    yarn dev
    ```
@@ -82,6 +90,23 @@ executar os testes, siga as etapas abaixo:
 
 Observação: Os testes podem levar alguns segundos para serem concluídos, dependendo do tamanho do teste.
 
+
+## Observações
+
+Aqui estão algumas observações importantes a serem consideradas ao executar o projeto:
+
+- Ao executar o projeto com Docker, verifique se a porta 5432 não está sendo utilizada por outros serviços em sua máquina. Caso haja um conflito de portas, você pode alterar a porta no arquivo `docker-compose.yml` antes de executar o comando `docker-compose up --build`.
+
+- Dentro do contêiner, o PostgreSQL está executando na porta 5432. No host local (onde o Docker está sendo executado), você pode acessar o PostgreSQL usando a porta 5431.
+
+- Se você optar por executar o projeto localmente, certifique-se de que o host do banco de dados PostgreSQL seja definido como `localhost`. Para isso, verifique e atualize a variável `DB_HOST` no arquivo `.env` para `localhost`.
+
+- No caso de execução do projeto utilizando Docker, o host do banco de dados PostgreSQL deve ser definido como `postgres`. Portanto, verifique e atualize a variável `DB_HOST` no arquivo `.env` para `postgres` se você estiver executando a aplicação no ambiente Docker.
+
+Essas observações são importantes para garantir o correto funcionamento do projeto, evitando possíveis conflitos de porta ou problemas de conexão com o banco de dados.
+
+Certifique-se de seguir as orientações adequadas com base na forma de execução escolhida: com Docker ou localmente.
+
 ## Endpoints
 
 A seguir estão os endpoints disponíveis no serviço:
@@ -105,6 +130,7 @@ Realiza uma exclusão suave (soft delete) de um usuário específico identificad
 ### POST /login
 
 Gera um token de autenticação para o usuário.
+   
 
 ## Considerações Finais
 
