@@ -88,7 +88,20 @@ executar os testes, siga as etapas abaixo:
    yarn test --all
    ```
 
-Observação: Os testes podem levar alguns segundos para serem concluídos, dependendo do tamanho do teste.
+### Integração Contínua com GitHub Actions
+
+O projeto está configurado para executar o CI usando o GitHub Actions. O fluxo de trabalho (workflow) está definido no arquivo `.github/workflows/integration_tests.yml`. Ele é acionado automaticamente em duas situações:
+
+- Quando ocorre um push para a branch `master`.
+- Quando é aberto um pull request para a branch `master`.
+
+O fluxo de trabalho de CI realiza as seguintes etapas:
+
+1. Verifica a sintaxe e a formatação do código usando ferramentas como ESLint e Prettier.
+2. Instala as dependências do projeto usando o Yarn.
+3. Executa os testes automatizados do projeto usando o comando `yarn test`.
+
+Para acessar os resultados do CI, vá até a página do projeto no GitHub, clique na aba "Actions" e selecione o workflow "Execução dos testes de integração". Lá você encontrará os registros das execuções anteriores e poderá verificar se os testes estão passando ou se ocorreram erros.
 
 
 ## Observações
