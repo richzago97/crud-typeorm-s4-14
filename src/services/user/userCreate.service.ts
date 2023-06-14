@@ -2,6 +2,7 @@ import AppDataSource from "../../data-source";
 import { User } from "../../entities/user.entity";
 import { IUserRequest } from "../../interfaces/users";
 import bcrypt from "bcrypt";
+import { removePassword } from "../../utils/removePassword";
 
 const userCreateService = async ({
   name,
@@ -23,11 +24,12 @@ const userCreateService = async ({
   user.password = bcrypt.hashSync(password, 10);
   user.isAdm = isAdm;
 
-  userRepository.create(user);
-  await userRepository.save(user);
+  const userCreated: User = userRepository.create(user);
+  await userRepository.save(userCreated);
 
-  const { password: pass, ...rest } = user;
-  return rest;
+  const userWithoutPassword = removePassword(userCreated)
+
+  return userWithoutPassword;
 };
 
 export default userCreateService;
