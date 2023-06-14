@@ -1,108 +1,111 @@
+# Documentação do Serviço de Back-End - CRUD de Usuário utilizando TypeORM
 
-S4-14 | 🏁 Entrega: CRUD (TypeORM + PostgreSQL)
+## Introdução
 
-Para inciar este projeto, é necessário instalar as dependências, que serão utilizadas nos testes. Portanto utilize o comando abaixo para instalar tais dependências:
+Esta documentação fornece informações sobre o serviço de back-end responsável por gerenciar um CRUD (Create, Read, Update, Delete) de usuário utilizando o TypeORM. O projeto consiste em uma aplicação de back-end que oferece endpoints para criar, listar, atualizar e excluir usuários, além de fornecer um endpoint para gerar um token de autenticação.
 
-````
-yarn install
-````
+## Requisitos
 
+Antes de iniciar o projeto, certifique-se de atender aos seguintes requisitos:
 
-**Atenção:** é necessário utilizar o `yarn` pois esse projeto foi iniciado com esse gerenciador de pacotes.
+-  Node.js (versão 12 ou superior) instalado na máquina.
+-  Gerenciador de pacotes Yarn instalado globalmente. Caso não tenha o Yarn, você pode instalá-lo utilizando o seguinte comando:
+   ```
+   npm install --global yarn
+   ```
 
-Para verificar se já possui o gerenciador yarn instalado utilize o seguinte comando:
+## Instalação
 
-````
-yarn --version
-````
+Siga as etapas abaixo para instalar as dependências do projeto:
 
-Caso não possua o yarn instalado, utilize o comando abaixo para instalar globalmente na sua máquina:
+1. Faça o clone do repositório do projeto.
+2. Navegue até o diretório raiz do projeto no seu terminal.
+3. Execute o seguinte comando para instalar as dependências necessárias:
+   ```
+   yarn install
+   ```
 
-````
-npm install --global yarn
-````
-<br>
+## Configuração do Banco de Dados
 
-# Como alternar entre docker e localhost
+Antes de executar o projeto, é necessário configurar as variáveis de ambiente no arquivo `.env`. Certifique-se de preencher corretamente as seguintes variáveis:
 
-Essa entrega já está com o Docker configurado e pronto para uso
+```
+DB_HOST=   # Endereço do servidor do banco de dados (ex: localhost)
+DB_USER=   # Nome de usuário do banco de dados
+DB_PASSWORD=   # Senha do banco de dados
+DB=   # Nome do banco de dados
+SECRET_KEY=   # Chave secreta para autenticação
+```
 
-Basta buildar e subir nossos containers usando o comando padrão:
-````
-docker-compose up --build
-````
+## Executando a Aplicação
 
-ou
-````
-docker compose up --build
-````
-O comando pode variar com a versão do docker compose instalada em sua máquina
+Para executar a aplicação, siga as etapas abaixo:
 
-***ATENÇÃO:*** a porta utilizada para rodar nosso docker é a `5431`.
-Caso tenha algum problema com essa porta, basta alterá-la no docker-compose.yml.
+### Utilizando Docker
 
-<br>
+1. Certifique-se de ter o Docker instalado na sua máquina.
+2. Navegue até o diretório raiz do projeto no seu terminal.
+3. Crie um arquivo `.env` no diretório raiz do projeto e configure as variáveis de ambiente com as informações corretas do seu banco de dados e a chave secreta para autenticação.
+4. Execute o seguinte comando para iniciar os containers Docker:
+   ```
+   docker-compose up --build
+   ```
+   Observação: A porta utilizada para rodar o Docker é a 5431. Caso haja algum problema com essa porta, você pode alterá-la no arquivo `docker-compose.yml`.
 
-## **Mas caso você necessite executar a entrega em `localhost`**
-**Configure as variáveis de ambiente no seu .env**, passando as credenciais corretas para conectar em seu banco local
+### Utilizando Localhost
 
-E altere a variável **`DB_HOST`** para **`localhost`**
+1. Certifique-se de ter um banco de dados PostgreSQL configurado na sua máquina local.
+2. Navegue até o diretório raiz do projeto no seu terminal.
+3. Crie um arquivo `.env` no diretório raiz do projeto e configure as variáveis de ambiente com as informações corretas do seu banco de dados e a chave secreta para autenticação.
+4. Execute o seguinte comando para iniciar a aplicação em localhost:
+   ```
+   yarn dev
+   ```
 
-Com isso feito, para rodar sua aplicação, basta utilizar o comando
-````
-yarn dev
-````
+## Testes
 
-<br>
+A aplicação inclui testes automatizados para validar as regras de negócio. Os testes estão localizados no diretório `src/__tests__`. Dentro deste diretório, os testes de integração estão na subpasta `integration`, enquanto os dados de teste estão na subpasta `mocks`. É importante não alterar nenhum desses arquivos para garantir a integridade dos testes.
 
-# **Sobre os testes**
+Para
 
-Essa aplicação possui testes, que serão utilizados para validar, se todas as regras de negócio foram aplicadas de maneira correta.
+executar os testes, siga as etapas abaixo:
 
-Os testes estão localizados em `src/__tests__`.
+1. Certifique-se de estar no diretório raiz do projeto no seu terminal.
+2. Execute o seguinte comando para rodar todos os testes:
+   ```
+   yarn test
+   ```
+   Para obter um log mais detalhado durante a execução dos testes, você pode usar o seguinte comando:
+   ```
+   yarn test --all
+   ```
 
-Na subpasta `integration` estão os testes.
+Observação: Os testes podem levar alguns segundos para serem concluídos, dependendo do tamanho do teste.
 
-Já na subpasta `mocks` estão os dados que serão utilizados para os testes.
+## Endpoints
 
-No arquivo `jest.config.json` estão algumas configurações necessárias para os testes rodarem.
+A seguir estão os endpoints disponíveis no serviço:
 
-**`De modo algum altere qualquer um desses arquivos.`** Isso poderá comprometer a integridade dos testes.
+### POST /users
 
-E também não altere o script de `test` localizado no `package.json`. Isso será utilizado para rodar os testes.
+Cria um novo usuário com base nos dados fornecidos.
 
-<br>
+### GET /users
 
+Recupera a lista de todos os usuários registrados.
 
-# **Rodando os testes** 
+### PATCH /users/<id>
 
-Para rodar os testes é necessário que no seu terminal, você esteja dentro do diretório do projeto.
+Atualiza os dados de um usuário específico identificado pelo ID.
 
-Estando no terminal e dentro do caminho correto, você poderá utilizar os comandos a seguir:
+### DELETE /users/<id>
 
-### Rodar todos os testes
-````
-yarn test
-````
-#
-### Rodar todos os testes e ter um log ainda mais completo
-````
-yarn test --all
-````
-#
+Realiza uma exclusão suave (soft delete) de um usuário específico identificado pelo ID.
 
+### POST /login
 
-<br>
+Gera um token de autenticação para o usuário.
 
+## Considerações Finais
 
-**Caso você queira verificar todas as opções de execução de testes, visite a [Documentação oficial do Jest](https://jestjs.io/docs/cli)**
-
-Após rodar um dos comandos aparecerá um log no seu terminal, contendo as informações da execução do teste.
-
-**Observação:** O teste pode demorar alguns segundos para ser finalizado. Quanto maior for o teste, mais tempo será consumido para a execução.
-
-#
-
-
-
-### Agora que já sabe como iniciar o seu projeto e rodar os testes, é hora de colocar a mão no código!
+Este documento forneceu uma visão geral e instruções para o projeto de serviço de back-end que gerencia um CRUD de usuário utilizando o TypeORM. Certifique-se de configurar corretamente as variáveis de ambiente e siga as instruções para executar a aplicação de acordo com sua preferência: utilizando Docker ou em localhost.
