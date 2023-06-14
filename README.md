@@ -30,10 +30,10 @@ Siga as etapas abaixo para instalar as dependências do projeto:
 Antes de executar o projeto, é necessário configurar as variáveis de ambiente no arquivo `.env`. Certifique-se de preencher corretamente as seguintes variáveis:
 
 ```
-DB_HOST=   # Endereço do servidor do banco de dados (ex: localhost)
-DB_USER=   # Nome de usuário do banco de dados
-DB_PASSWORD=   # Senha do banco de dados
-DB=   # Nome do banco de dados
+POSTGRES_HOST=   # Endereço do servidor do banco de dados (ex: localhost)
+POSTGRES_USER=   # Nome de usuário do banco de dados
+POSTGRES_PASSWORD=   # Senha do banco de dados
+POSTGRES_DB=   # Nome do banco de dados
 SECRET_KEY=   # Chave secreta para autenticação
 ```
 
